@@ -27,8 +27,25 @@ public class MatriculaDAO {
     private double valorBase;
     private TipoDesconto tipoDesconto;   // "NENHUM", "BOLSISTA", "CONVENIO", "FUNCIONARIO"...
 
-    public AlunoDAO(){
+    public MatriculaDAO(AlunoDAO aluno, TipoDesconto tipoDesconto) {
+        this.aluno = aluno;
+        this.tipoDesconto = tipoDesconto;
+    }
 
+    public AlunoDAO getAluno() {
+        return aluno;
+    }
+
+    public void setAluno(AlunoDAO aluno) {
+        this.aluno = aluno;
+    }
+
+    public TipoDesconto getTipoDesconto() {
+        return tipoDesconto;
+    }
+
+    public void setTipoDesconto(TipoDesconto tipoDesconto) {
+        this.tipoDesconto = tipoDesconto;
     }
 //    // Violação do DIP: dependência direta da classe concreta.
 //    private GravadorMySQL gravador = new GravadorMySQL();
