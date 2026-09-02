@@ -1,6 +1,5 @@
 package siga.dao;
 
-import siga.repository.GravadorMySQL;
 import siga.service.TipoDesconto;
 
 /**
@@ -22,12 +21,15 @@ import siga.service.TipoDesconto;
  *   - inverter a dependência concreta de GravadorMySQL, fazendo a classe depender
  *     de uma interface (ex.: MatriculaRepositorio).
  */
-public class Matricula {
+public class MatriculaDAO {
 
     private AlunoDAO aluno;
     private double valorBase;
     private TipoDesconto tipoDesconto;   // "NENHUM", "BOLSISTA", "CONVENIO", "FUNCIONARIO"...
 
+    public AlunoDAO(){
+
+    }
 //    // Violação do DIP: dependência direta da classe concreta.
 //    private GravadorMySQL gravador = new GravadorMySQL();
 //
