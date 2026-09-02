@@ -1,5 +1,6 @@
 package siga.dao;
 
+import siga.repository.MatriculaRepository;
 import siga.service.TipoDesconto;
 
 /**
@@ -26,10 +27,13 @@ public class MatriculaDAO {
     private AlunoDAO aluno;
     private double valorBase;
     private TipoDesconto tipoDesconto;   // "NENHUM", "BOLSISTA", "CONVENIO", "FUNCIONARIO"...
+    private MatriculaRepository  matriculaRepository;
 
-    public MatriculaDAO(AlunoDAO aluno, TipoDesconto tipoDesconto) {
+    public MatriculaDAO(AlunoDAO aluno, double valorBase,TipoDesconto tipoDesconto, MatriculaRepository matriculaRepository) {
         this.aluno = aluno;
+        this.valorBase = valorBase;
         this.tipoDesconto = tipoDesconto;
+        this.matriculaRepository = matriculaRepository;
     }
 
     public AlunoDAO getAluno() {
