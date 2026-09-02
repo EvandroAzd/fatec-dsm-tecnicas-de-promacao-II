@@ -1,4 +1,4 @@
-package siga;
+package siga.repository;
 
 /**
  * Código INICIAL da atividade.

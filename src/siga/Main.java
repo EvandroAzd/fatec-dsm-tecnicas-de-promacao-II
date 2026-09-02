@@ -1,6 +1,7 @@
 package siga;
 
 import siga.dao.AlunoDAO;
+import siga.dao.Matricula;
 
 import java.util.Arrays;
 import java.util.List;
