@@ -47,14 +47,16 @@ public class MatriculaDAO {
     public void setTipoDesconto(TipoDesconto tipoDesconto) {
         this.tipoDesconto = tipoDesconto;
     }
+
+    public double getValorBase() {
+        return valorBase;
+    }
+
+    public void setValorBase(double valorBase) {
+        this.valorBase = valorBase;
+    }
 //    // Violação do DIP: dependência direta da classe concreta.
 //    private GravadorMySQL gravador = new GravadorMySQL();
-//
-//    public Matricula(AlunoDAO aluno, double valorBase, String tipoDesconto) {
-//        this.aluno = aluno;
-//        this.valorBase = valorBase;
-//        this.tipoDesconto = tipoDesconto;
-//    }
 //
 //    // Violação do OCP: um novo desconto = mais um ramo condicional aqui.
 //    public double calcularMensalidade() {
