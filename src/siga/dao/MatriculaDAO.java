@@ -59,25 +59,8 @@ public class MatriculaDAO {
     public void setValorBase(double valorBase) {
         this.valorBase = valorBase;
     }
-//    // Violação do DIP: dependência direta da classe concreta.
-//    private GravadorMySQL gravador = new GravadorMySQL();
-//
-//    // Violação do OCP: um novo desconto = mais um ramo condicional aqui.
-//    public double calcularMensalidade() {
-//        if (tipoDesconto.equals("BOLSISTA")) {
-//            return valorBase * 0.5;
-//        } else if (tipoDesconto.equals("CONVENIO")) {
-//            return valorBase * 0.8;
-//        } else if (tipoDesconto.equals("FUNCIONARIO")) {
-//            return valorBase * 0.7;
-//        } else {
-//            return valorBase; // NENHUM
-//        }
-//    }
-//
-//    // Persiste a matrícula usando a implementação concreta (acoplamento indevido).
-//    public void salvar() {
-//        gravador.gravar("Matrícula de " + aluno.getNome()
-//                + " - mensalidade: " + calcularMensalidade());
-//    }
+
+    public void salvar(double mensalidade) {
+        matriculaRepository.gravar("Matrícula de " + aluno.getNome() + " - mensalidade: " + mensalidade);
+    }
 }
