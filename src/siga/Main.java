@@ -2,48 +2,56 @@ package siga;
 
 import siga.dao.AlunoDAO;
 import siga.dao.MatriculaDAO;
+import siga.repository.GravadorMySQL;
+import siga.repository.MatriculaRepository;
+import siga.repository.RelatorioRepository;
+import siga.service.*;
 
 import java.util.Arrays;
 import java.util.List;
 
-/**
- * Ponto de entrada do SIGA (código INICIAL da atividade da Aula 3).
- *
- * Esta classe demonstra, em execução, os três problemas de design que você
- * deverá corrigir aplicando os princípios SOLID. Rode o programa e observe:
- * ele FUNCIONA — mas o código não resiste bem à mudança, como discutido em aula.
- */
 public class Main {
 
     public static void main(String[] args) {
         System.out.println("=== SIGA - Atividade de Refatoração SOLID (código inicial) ===\n");
 
         List<AlunoDAO> alunos = Arrays.asList(
-            new AlunoDAO("Maria Silva", "2026001", "maria@exemplo.edu", 8.5, true),
-            new AlunoDAO("João Souza",  "2026002", "joao@exemplo.edu",  6.0, false),
-            new AlunoDAO("Ana Pereira", "2026003", "ana@exemplo.edu",   9.2, false)
+                new AlunoDAO("Evandro", "azevedo@gmail.com", 9.0, true),
+                new AlunoDAO("Maria Silva", "maria@exemplo.edu", 6.0, false),
+                new AlunoDAO("João", "joao@exemplo.edu", 7.5, true)
         );
 
-        // PROBLEMA 1 (SRP): uma única classe formata, grava E envia o relatório.
-        RelatorioAluno relatorio = new RelatorioAluno();
-        String conteudo = relatorio.formatar(alunos);
-        relatorio.salvarEmArquivo(conteudo, "relatorios/alunos.txt");
-        relatorio.enviarPorEmail(conteudo, "coordenacao@exemplo.edu");
+        // PROBLEMA 1 (SRP): uma única classe formata, grava E envia o relatório. RESOLVIDO
+        MatriculaRepository repositorio = new GravadorMySQL();
+        List <MatriculaDAO> matriculas = Arrays.asList(
+                new MatriculaDAO(2026003, alunos.get(0), 1000, TipoDesconto.BOLSISTA, repositorio),
+                new MatriculaDAO(2902003, alunos.get(1), 1000, TipoDesconto.VAZIO, repositorio),
+                new MatriculaDAO(2125203, alunos.get(2), 1000, TipoDesconto.CONVENIO, repositorio)
+        );
+        RelatorioFormatadorService relatorioFormatadorService = new RelatorioFormatadorService();
+        String conteudo = relatorioFormatadorService.formatar(matriculas);
+        RelatorioRepository relatorioRepository = new RelatorioRepository();
+        relatorioRepository.salvarEmArquivo(conteudo, "home/Documents");
+        EmailService emailService = new EmailService();
+        emailService.enviarPorEmail(conteudo, "contato@empresa.com.br");
+
+        // PROBLEMA 2 (OCP): o cálculo usa condicionais que crescem a cada desconto. RESOLVIDO
+        DescontoBolsistaService desconto = new DescontoBolsistaService();
+        double mensalidade = desconto.aplicar(matriculas.get(0).getValorBase());
+        System.out.println("Aluno: " + alunos.get(0).getNome() + "/ Mensalidade (bolsista): R$" + mensalidade);
+
+        SemDescontoService semDesconto = new SemDescontoService();
+        double mensalidade2 = semDesconto.aplicar(matriculas.get(1).getValorBase());
+        System.out.println("Aluno: " + alunos.get(1).getNome() + "/ Mensalidade (sem desconto): R$" + mensalidade2);
+
+        DescontoConvenioService descontoConvenio = new DescontoConvenioService();
+        double mensalidade3 = descontoConvenio.aplicar(matriculas.get(2).getValorBase());
+        System.out.println("Aluno: " + alunos.get(2).getNome() + "/ Mensalidade (convênio): R$" + mensalidade3);
 
         System.out.println();
-
-        // PROBLEMA 2 (OCP): o cálculo usa condicionais que crescem a cada desconto.
-        MatriculaDAO m1 = new MatriculaDAO(alunos.get(0), 1000.0, "BOLSISTA");
-        MatriculaDAO m2 = new MatriculaDAO(alunos.get(1), 1000.0, "NENHUM");
-        System.out.println("Mensalidade (bolsista): " + m1.calcularMensalidade());
-        System.out.println("Mensalidade (sem desconto): " + m2.calcularMensalidade());
-
         // PROBLEMA 3 (DIP): Matricula depende diretamente de GravadorMySQL.
-        m1.salvar();
-        m2.salvar();
-
-        System.out.println("\nObserve: para adicionar um novo tipo de desconto, é preciso");
-        System.out.println("MODIFICAR a classe Matricula; e trocar o meio de persistência");
-        System.out.println("exigiria alterá-la também. Sua tarefa é corrigir isso com SOLID.");
+        matriculas.get(0).salvar(mensalidade);
+        matriculas.get(1).salvar(mensalidade2);
+        matriculas.get(2).salvar(mensalidade3);
     }
 }

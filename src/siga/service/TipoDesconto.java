@@ -3,5 +3,6 @@ package siga.service;
 public enum TipoDesconto {
     BOLSISTA,
     CONVENIO,
-    FUCIONARIO
+    FUCIONARIO,
+    VAZIO
 }

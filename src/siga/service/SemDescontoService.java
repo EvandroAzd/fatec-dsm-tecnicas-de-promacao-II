@@ -2,7 +2,8 @@ package siga.service;
 
 public class SemDescontoService implements DescontoMatriculaService {
     @Override
-    public void aplicar(double valorBase) {
+    public double aplicar(double valorBase) {
         double valorApagar = valorBase;
+        return  valorApagar;
     }
 }
