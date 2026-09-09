@@ -21,19 +21,8 @@ package siga;
 public class GerenciadorLogin {
 
     public Painel montarPainel(String tipoUsuario) {
-        Painel painel;
-
-        // Violação do OCP: um novo perfil = mais um ramo condicional aqui.
-        if (tipoUsuario.equals("ALUNO")) {
-            painel = new PainelAluno();
-        } else if (tipoUsuario.equals("PROFESSOR")) {
-            painel = new PainelProfessor();
-        } else if (tipoUsuario.equals("COORDENADOR")) {
-            painel = new PainelCoordenador();
-        } else {
-            throw new IllegalArgumentException("Perfil desconhecido: " + tipoUsuario);
-        }
-
+        // Violação do OCP: CORRIGIDO.
+        Painel painel = FabricaPainel.criar(tipoUsuario);
         painel.montar();
         return painel;
     }
