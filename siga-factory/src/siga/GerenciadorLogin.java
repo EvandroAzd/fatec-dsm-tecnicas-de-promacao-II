@@ -19,11 +19,16 @@ package siga;
  *     código existente, comprovando o respeito ao OCP.
  */
 public class GerenciadorLogin {
+    // Violação do OCP: CORRIGIDO.
+//    public Painel montarPainel(String tipoUsuario) {
+//
+//        Painel painel = FabricaPainel.criar(tipoUsuario);
+//        painel.montar();
+//        return painel;
+//    }
 
-    public Painel montarPainel(String tipoUsuario) {
-        // Violação do OCP: CORRIGIDO.
-        Painel painel = FabricaPainel.criar(tipoUsuario);
-        painel.montar();
-        return painel;
+    //Aplicando o Factory Method
+        public void montarPainel(CriadorPainel criador) {
+            criador.montarPainel();
+        }
     }
-}
